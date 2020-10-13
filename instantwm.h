@@ -133,6 +133,7 @@ struct Monitor {
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
+       unsigned int rmaster;
 	unsigned int activeoffset;
 	unsigned int titleoffset;
 	unsigned int clientcount;
@@ -303,6 +304,7 @@ void togglelocked(const Arg *arg);
 void toggleshowtags(const Arg *arg);
 void togglebar(const Arg *arg);
 void togglefloating(const Arg *arg);
+void togglermaster(const Arg *arg);
 void togglesticky(const Arg *arg);
 void toggleprefix(const Arg *arg);
 void toggletag(const Arg *arg);
