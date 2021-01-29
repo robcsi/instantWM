@@ -157,6 +157,8 @@ static const char *slockcmd[] = {"ilock", NULL};
 static const char *langswitchcmd[] = {"ilayout", NULL};
 static const char *oslockcmd[] = {"instantlock", "-o", NULL};
 static const char *helpcmd[] = {"instanthotkeys", "gui", NULL};
+static const char *searchcmd[] = {"instantsearch", NULL};
+static const char *keylayoutswitchcmd[] = {"instantkeyswitch", NULL};
 static const char *iswitchcmd[] = {"iswitch", NULL};
 static const char *instantswitchcmd[] = {"rofi", "-show", "window", "-kb-row-down", "Alt+Tab,Down", "-kb-row-up", "Alt+Ctrl+Tab,Up", "-kb-accept-entry", "!Alt_L,!Alt+Tab,Return", "-me-select-entry", "", "-me-accept-entry", "MousePrimary", NULL};
 static const char *caretinstantswitchcmd[] = {"rofi", "-show", "window", "-kb-row-down", "Alt+Tab,Down", "-kb-row-up", "Alt+Ctrl+Tab,Up", "-kb-accept-entry", "!Alt_L,!Alt+Tab,Return", "-me-select-entry", "", "-me-accept-entry", "MousePrimary", "-theme", "/usr/share/instantdotfiles/rofi/appmenu.rasi", NULL};
@@ -170,7 +172,7 @@ static const char *controlcentercmd[] = { "instantsettings", NULL};
 static const char *displaycmd[] = { "instantdisper", NULL};
 static const char *pavucontrol[] = { "pavucontrol", NULL};
 static const char *instantsettings[] = { "instantsettings", NULL};
-static const char  *clickcmd[] = { "autoclicker", NULL };
+// static const char  *clickcmd[] = { "autoclicker", NULL };
 static const char  *codecmd[] = { "instantutils open graphicaleditor", NULL };
 static const char  *startmenucmd[] = { "instantstartmenu", NULL };
 
@@ -222,7 +224,7 @@ ResourcePref resources[] = {
 };
 
 static Xcommand commands[] = {
-	/* signum       function        argument  */
+	/* signum       function        default argument  arg handler*/
 	{ "overlay",    setoverlay,      {0}, 0 },
 	{ "tag",        view,      { .ui = 2 }, 3 },
 	{ "animated",   toggleanimated,      { .ui = 2 }, 1 },
@@ -231,6 +233,7 @@ static Xcommand commands[] = {
 	{ "prefix",   commandprefix,      { .ui = 1 }, 1 },
 	{ "alttag",   togglealttag,      { .ui = 0 }, 1 },
 	{ "hidetags",   toggleshowtags,      { .ui = 0 }, 1 },
+	{ "specialnext",   setspecialnext,      { .ui = 0 }, 3 },
 };
 
 static Key dkeys[] = {
@@ -327,6 +330,8 @@ static Key keys[] = {
 	{MODKEY,                    XK_s, togglescratchpad, {0}},
 	{MODKEY|ShiftMask, XK_f, togglefakefullscreen, {0} },
 	{MODKEY|ControlMask, XK_f, tempfullscreen, {0} },
+	{MODKEY|Mod1Mask, XK_f, spawn, { .v = searchcmd } },
+	{MODKEY|Mod1Mask, XK_space, spawn, { .v = keylayoutswitchcmd } },
 	{MODKEY | ShiftMask | Mod1Mask, XK_d, toggledoubledraw, {0} },
 	{MODKEY|ShiftMask, XK_w, warpfocus, {0} },
 	{MODKEY|Mod1Mask, XK_w, centerwindow, {0} },

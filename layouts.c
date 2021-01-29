@@ -178,9 +178,8 @@ grid(Monitor *m) {
 void
 monocle(Monitor *m)
 {
-	unsigned int n = 0, ccount;
+	unsigned int n = 0;
 	Client *c;
-	ccount = clientcount();
 
 	if (animated && selmon->sel)
 		XRaiseWindow(dpy, selmon->sel->win);
@@ -204,30 +203,22 @@ monocle(Monitor *m)
 void
 focusstack2(const Arg *arg)
 {
-	Client *c = NULL;
+	Client *nextVisibleClient = findVisibleClient(selmon->sel->next) ?: findVisibleClient(selmon->clients);
 
-	for (c = selmon->sel->next; c && !ISVISIBLE(c); c = c->next);
-	if (!c)
-		for (c = selmon->clients; c && !ISVISIBLE(c); c = c->next);
-
-	if (c) {
-		if (c) {
-			if (c->mon != selmon)
-				selmon = c->mon;
-			detachstack(c);
-			attachstack(c);
-		}
-
-		selmon->sel = c;
+	if (nextVisibleClient) {
+		if (nextVisibleClient->mon != selmon)
+			selmon = nextVisibleClient->mon;
+		detachstack(nextVisibleClient);
+		attachstack(nextVisibleClient);
+		selmon->sel = nextVisibleClient;
 	}
 }
 
 void
 overviewlayout(Monitor *m)
 {
-	int i, n, rows;
+	int n;
 	int gridwidth;
-	unsigned int cols;
 	unsigned int colwidth;
 	unsigned int lineheight;
 	int tmpx;
@@ -349,7 +340,7 @@ tcl(Monitor * m)
 void
 tile(Monitor *m)
 {
-	unsigned int i, n, h, mw, my, ty, framecount;
+	unsigned int i, n, h, mw, my, ty, framecount, tmpanim;
 	Client *c;
 
 	if (animated && clientcount() > 5)
@@ -378,9 +369,18 @@ tile(Monitor *m)
 			// client is in the master
 			h = (m->wh - my) / (MIN(n, m->nmaster) - i) - m->gappx;
 			animateclient(c, (m->rmaster ? m->wx + m->ww - mw : m->wx + m->gappx), m->wy + my, mw - (2*c->bw) - m->gappx, h - (2*c->bw), framecount, 0);
+
+            if (n == 2) {
+                tmpanim = animated;
+                animated = 0;
+			animateclient(c, (m->rmaster ? m->wx + m->ww - mw : m->wx + m->gappx), m->wy + my, mw - (2*c->bw) - m->gappx, h - (2*c->bw), framecount, 0);
+                animated = tmpanim;
+            } else {
+			animateclient(c, (m->rmaster ? m->wx + m->ww - mw : m->wx + m->gappx), m->wy + my, mw - (2*c->bw) - m->gappx, h - (2*c->bw), framecount, 0);
 			if (m->nmaster == 1 && n > 1) {
 				mw = c->w + c->bw * 2 + m->gappx;
 			}
+            }
 			if (my + HEIGHT(c) < m->wh)
 				my += HEIGHT(c) + m->gappx;
 		} else {

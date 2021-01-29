@@ -142,6 +142,7 @@ struct Monitor {
 	Client *clients;
 	Client *sel;
 	Client *overlay;
+	Client *activescratchpad;
 	Client *fullscreen;
 	int overlaystatus;
     int overlaymode;
@@ -229,7 +230,7 @@ void grabkeys(void);
 void hide(Client *c);
 void incnmaster(const Arg *arg);
 void keypress(XEvent *e);
-static int xcommand(void);
+int xcommand(void);
 void killclient(const Arg *arg);
 void manage(Window w, XWindowAttributes *wa);
 void mappingnotify(XEvent *e);
@@ -254,6 +255,11 @@ void quit(const Arg *arg);
 Monitor *recttomon(int x, int y, int w, int h);
 void removesystrayicon(Client *i);
 void resize(Client *c, int x, int y, int w, int h, int interact);
+void applysize(Client *c);
+void resetsticky(Client *c);
+void applysnap(Client *c, Monitor *m);
+int unhideone();
+int allclientcount();
 void resizebarwin(Monitor *m);
 void resizeclient(Client *c, int x, int y, int w, int h);
 void resizemouse(const Arg *arg);
@@ -350,6 +356,8 @@ void downscaleclient(const Arg *arg);
 void overtoggle(const Arg *arg);
 void lastview(const Arg *arg);
 void fullovertoggle(const Arg *arg);
+
+void setspecialnext(const Arg *arg);
 
 Client *wintoclient(Window w);
 Monitor *wintomon(Window w);
