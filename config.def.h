@@ -4,6 +4,7 @@
 /* appearance */
 static const unsigned int borderpx = 3;		  /* border pixel of windows */
 static const unsigned int snap = 32;		  /* snap pixel */
+static const unsigned int rmaster            = 1;        /* 1 means master-area is initially on the right */
 static const unsigned int startmenusize = 30;		  /* snap pixel */
 static const unsigned int systraypinning = 0; /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 0; /* systray spacing */
@@ -286,6 +287,7 @@ static Key keys[] = {
 	{MODKEY|ShiftMask,				XK_Escape,  	spawn,	{.v = systemmonitorcmd}},
 
 	{MODKEY, XK_r, spawn, {.v = rangercmd } },
+	{MODKEY|ShiftMask, XK_r, togglermaster, {0} },
 	{MODKEY|ControlMask|Mod1Mask, XK_r, redrawwin, {0} },
 	{MODKEY, XK_n, spawn, {.v = nautiluscmd } },
 	{MODKEY | ControlMask, XK_q, spawn, {.v = instantshutdowncmd } },
