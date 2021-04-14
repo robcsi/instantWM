@@ -292,6 +292,7 @@ void sigchld(int unused);
 void spawn(const Arg *arg);
 void clickstatus(const Arg *arg);
 Monitor *systraytomon(Monitor *m);
+Client *getcursorclient();
 void tag(const Arg *arg);
 void tagall(const Arg *arg);
 void followtag(const Arg *arg);
@@ -304,6 +305,8 @@ void downpress(const Arg *arg);
 void togglealttag(const Arg *arg);
 void alttabfree(const Arg *arg);
 void toggleanimated(const Arg *arg);
+void togglefocusfollowsmouse(const Arg *arg);
+void togglefocusfollowsfloatmouse(const Arg *arg);
 void toggledoubledraw(const Arg *arg);
 void togglefakefullscreen(const Arg *arg);
 void togglelocked(const Arg *arg);
@@ -341,6 +344,7 @@ void updatewmhints(Client *c);
 void view(const Arg *arg);
 void warp(const Client *c);
 void forcewarp(const Client *c);
+void warpinto(const Client *c);
 void warpfocus();
 void viewtoleft(const Arg *arg);
 void animleft(const Arg *arg);
@@ -358,6 +362,8 @@ void lastview(const Arg *arg);
 void fullovertoggle(const Arg *arg);
 
 void setspecialnext(const Arg *arg);
+
+void directionfocus(const Arg *arg);
 
 Client *wintoclient(Window w);
 Monitor *wintomon(Window w);
@@ -380,6 +386,9 @@ void tempfullscreen();
 
 void savefloating(Client *c);
 void restorefloating(Client *c);
+
+void savebw(Client *c);
+void restorebw(Client *c);
 
 void shiftview(const Arg *arg);
 void focuslastclient(const Arg *arg);
