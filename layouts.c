@@ -341,6 +341,7 @@ void
 tile(Monitor *m)
 {
 	unsigned int i, n, h, mw, my, ty, framecount, tmpanim;
+	float mfacts = 0, sfacts = 0;
 	Client *c;
 
 	if (animated && clientcount() > 5)
@@ -348,7 +349,12 @@ tile(Monitor *m)
 	else
 		framecount = 7;
 
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
+		if (n < m->nmaster)
+			mfacts += c->cfact;
+		else
+			sfacts += c->cfact;
+	}
 	if (n == 0)
 		return;
 
@@ -367,8 +373,11 @@ tile(Monitor *m)
 	for (i = 0, my = ty = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
 			// client is in the master
-			h = (m->wh - my) / (MIN(n, m->nmaster) - i) - m->gappx;
+			/* h = (m->wh - my) / (MIN(n, m->nmaster) - i) - m->gappx; */
+			h = (m->wh - my) * (c->cfact / mfacts) - m->gappx;
 			animateclient(c, (m->rmaster ? m->wx + m->ww - mw : m->wx + m->gappx), m->wy + my, mw - (2*c->bw) - m->gappx, h - (2*c->bw), framecount, 0);
+
+            mfacts -= c->cfact;
 
             if (n == 2) {
                 tmpanim = animated;
@@ -385,9 +394,11 @@ tile(Monitor *m)
 				my += HEIGHT(c) + m->gappx;
 		} else {
 			// client is in the stack
-			h = (m->wh - ty) / (n - i) - m->gappx;
+			/* h = (m->wh - ty) / (n - i) - m->gappx; */
+			h = (m->wh - ty) * (c->cfact / sfacts) - m->gappx;
 			animateclient(c, (m->rmaster ? m->wx : m->wx + mw) + m->gappx, m->wy + ty, m->ww - mw - (2*c->bw) - 2*m->gappx, h - (2*c->bw), framecount, 0);
 			if (ty + HEIGHT(c) < m->wh)
 				ty += HEIGHT(c) + m->gappx;
+            sfacts -= c->cfact;
 		}
 }

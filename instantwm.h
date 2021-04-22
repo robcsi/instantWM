@@ -85,6 +85,7 @@ typedef struct Client Client;
 struct Client {
 	char name[256];
 	float mina, maxa;
+	float cfact;
 	int x, y, w, h;
 	int sfx, sfy, sfw, sfh; /* stored float geometry, used on mode revert */
 	int oldx, oldy, oldw, oldh;
@@ -283,6 +284,7 @@ static void setgaps(const Arg* arg);
 void setlayout(const Arg *arg);
 void commandlayout(const Arg *arg);
 void commandprefix(const Arg *arg);
+static void setcfact(const Arg *arg);
 void setmfact(const Arg *arg);
 void setup(void);
 void seturgent(Client *c, int urg);
