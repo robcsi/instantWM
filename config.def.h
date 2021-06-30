@@ -160,6 +160,7 @@ static const char *onekeylock[] = {"ilock", "-o", NULL};
 static const char *langswitchcmd[] = {"ilayout", NULL};
 static const char *oslockcmd[] = {"instantlock", "-o", NULL};
 static const char *helpcmd[] = {"instanthotkeys", "gui", NULL};
+static const char *skippycmd[] = {"skippy-xd", NULL};
 static const char *searchcmd[] = {"instantsearch", NULL};
 static const char *keylayoutswitchcmd[] = {"instantkeyswitch", NULL};
 static const char *iswitchcmd[] = {"iswitch", NULL};
@@ -382,7 +383,7 @@ static Key keys[] = {
 	{MODKEY,                                XK_Left,            animleft,             {0}},
 	{MODKEY,                                XK_Right,           animright,            {0}},
 
-	{MODKEY,                                XK_e,               overtoggle,           {.ui = ~0}},
+	{MODKEY,                                XK_e,               spawn,           {.v = skippycmd }},
 	{MODKEY|ShiftMask,                      XK_e,               fullovertoggle,       {.ui = ~0}},
 
 	{MODKEY|ControlMask,                    XK_Left,            directionfocus,            {.ui = 3 }},
